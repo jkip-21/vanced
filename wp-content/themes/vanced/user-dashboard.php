@@ -48,7 +48,7 @@ get_header();?>
         <div class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link  active" href="/wp/vanced/dashboard-2/">
+                    <a class="nav-link  active" href="#">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <title>shop </title>
@@ -88,7 +88,7 @@ get_header();?>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  " href="/wp/vanced/project/">
+                    <a class="nav-link  " href="/wp/vanced/user-project/">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <title>credit-card</title>
@@ -205,7 +205,28 @@ get_header();?>
                         </div>
                     </div>
                 </div>
-        
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card mb-4">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                    <form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
+  <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
+    aria-label="Search">
+</form>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                        <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
         <table class="table table-striped">
