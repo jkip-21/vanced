@@ -14,8 +14,14 @@ get_header();?>
     <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css">
     <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/soft-ui-dashboard.min.css?v=1.0.2">
 </head>
+<style>
+    a .btn{
+  background-color: #090D5A;
+  border-radius: 5px;
+  color: white;
+}
+</style>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <img src="../wp-content/themes/vanced/assets/img/brand.jpg" alt="" height="100px">
 
   <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
@@ -40,7 +46,9 @@ get_header();?>
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="javascript:;">
-                <img src="../wp-content\themes\vanced\assets\img\brand.jpg" class="navbar-brand-img" height="400px" alt="...">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+  <img src="../wp-content/themes/vanced/assets/img/brand.jpg" alt="" height="100px">
+</div>
                 
             </a>
         </div>

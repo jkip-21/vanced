@@ -46,7 +46,11 @@ html {
 .title {
   color: grey;
 }
-
+a .btn{
+  background-color: #090D5A;
+  border-radius: 5px;
+  color: white;
+}
 .button {
   border: none;
   outline: 0;

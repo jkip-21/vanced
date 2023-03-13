@@ -43,6 +43,11 @@ get_header();
     color: #fff;
     border-radius: 5px
   }
+  a .btn{
+  background-color: #090D5A;
+  border-radius: 5px;
+  color: white;
+}
   .new{
     border:  2px solid #090D5A;
     display: block;

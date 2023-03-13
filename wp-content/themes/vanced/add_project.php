@@ -39,7 +39,9 @@ get_header();
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="javascript:;">
-                <img src="../wp-content\themes\vanced\assets\img\brand.jpg" class="navbar-brand-img" height="400px" alt="...">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+  <img src="../wp-content/themes/vanced/assets/img/brand.jpg" alt="" height="100px">
+</div>
                 
             </a>
         </div>
@@ -204,6 +206,25 @@ get_header();
                         </div>
                     </div>
                 </div>
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card mb-4">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Pending</p>
+                                        <h5 class="text-success mb-0 font-weight-bolder">0</h5>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                        <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
                 <!-- Main content -->
@@ -213,7 +234,7 @@ get_header();
                             <div class='m-2 card card-outline card-success'>
                                 <div class='card-header'>
                                     <div class='card-tools'>
-                                        <h1>New project</h1>
+                                        <h1>Add project</h1>
                                     </div>
                                 </div>
                                 <div class='card-body justify-content-center'>
@@ -221,22 +242,24 @@ get_header();
                                         <form method="post" action="">
                                             <div class='row  justify-content-center'>
                                                 <div class='col'>
-                                                    <label for='name'>Name</label><br>
-                                                    <input type='text' class='form-control' name='name' placeholder=''
+                                                    <label for='name'>Project Title:</label><br>
+                                                    <input type='text' class='form-control' name='name' placeholder='Enter project title...'
                                                         required>
                                                 </div>
                                                 <div class='col'>
-                                                    <label for='name'>Start Date</label>
-                                                    <input type='date' class='form-control' name='start' placeholder=''
-                                                        required>
+                                                <label for='name'>Assign User:</label><br>
+                                                <select name="choice" id="choice" class='form-control' style="border: 2px solid #090D5A; border-radius: 5px">
+                                                  <option value="user">J-kip</option>
+                                                  <option value="users">Van</option>
+                                                      </select>
                                                 </div>
                                             </div>
                                     </div>
                                     <div class='form-field2'>
                                             <div class='row justify-content-center'>
-                                                <div class='col'>
-                                                <label for='name'>Short Description</label><br>
-                                                    <input type='text' class='form-control' name='description' placeholder=''
+                                            <div class='col'>
+                                                    <label for='name'>Start Date</label>
+                                                    <input type='date' class='form-control' name='start' placeholder=''
                                                         required>
                                                 </div>
                                                 <div class='col'>
@@ -245,19 +268,16 @@ get_header();
                                                         required>
                                                 </div>
                                                 <div class='form-outline mb-4 '>
-                                                    <label class='form-label' for='textAreaExample6'>Instructions</label>
+                                                    <label class='form-label' for='textAreaExample6'>Description:</label>
                                                     <textarea class='form-control' id='textAreaExample6' name="instruction"
-                                                        rows='5'></textarea>
+                                                        rows='5' placeholder="Enter project description..."></textarea>
                                                 </div>
                                             </div>
 </form>
                                     </div>
                                     <div class='btns-section'>
                                         <div class="btn-sec1">
-                                        <button type='button' class='btn btn-primary btn-lg' name="submit">Save</button>
-                                        </div>
-                                        <div class="btn-sec2">
-                                        <button type='button' class='btn btn-secondary btn-lg'>Cancel</button>
+                                        <button type='button' class='btn btn-primary btn-lg' name="submit">ADD</button>
                                         </div>
                                     </div>
                                 </div>

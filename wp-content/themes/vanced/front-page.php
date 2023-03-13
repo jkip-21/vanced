@@ -150,6 +150,7 @@ a .btn{
     <h1>COMMUNICATE:</h1>
     <h1>VISUALIZE:</h1>
     <h1>CREATE:</h1>
+    <h1>COORDINATE:</h1>
     <h3>Your Digital Project Manager Footprint</h3>
     <p>Cover your milestone with us</p>
     <a href="/wp/vanced/register/">
@@ -185,17 +186,6 @@ a .btn{
   </div>
 </div>
 <div class="module"></div>
-
-
-
-
-
-
-
-
-
-
-
 
 
 <?php get_footer();?>

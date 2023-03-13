@@ -30,12 +30,6 @@
             <li>
               <a href="/wp/vanced/register/" style="text-decoration: none; color: #090D5A; line-height: 1.5em; font-size: 18px">Register</a>
             </li>
-            <li>
-              <a href="/wp/vanced/dashboard-2/" style="text-decoration: none; color: #090D5A; line-height: 1.5em; font-size: 18px">Admin-dash</a>
-            </li>
-            <li>
-              <a href="/wp/vanced/user-dashboard/" style="text-decoration: none; color: #090D5A; line-height: 1.5em; font-size: 18px">User-dash</a>
-            </li>
           </ul>
         </div>
         <!--Grid column-->
