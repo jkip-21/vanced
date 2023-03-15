@@ -146,7 +146,7 @@ a .btn{
       </li>
     </ul>
     <div class="justify-content-end">
-    <a href="/wp/vanced/wp-login.php/"><button type="button" style= "margin-right: 40px;"class="btn">LOGIN</button></a>
+    <a href="/wp/vanced/auth/"><button type="button" style= "margin-right: 40px;"class="btn">LOGIN</button></a>
     </div>
   </div>
 </nav>

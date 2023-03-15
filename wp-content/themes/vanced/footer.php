@@ -22,7 +22,7 @@
 
           <ul class="list-unstyled mb-0">
             <li>
-              <a href="/wp/vanced/about-us" style="text-decoration: none; color: #090D5A; line-height: 1.5em; font-size: 18px">About Us</a>
+              <a href="/wp/vanced/#content" style="text-decoration: none; color: #090D5A; line-height: 1.5em; font-size: 18px">About Us</a>
             </li>
             <li>
               <a href="/wp/vanced/contact/" style="text-decoration: none; color: #090D5A; line-height: 1.5em; font-size: 18px">Contact Us</a>

@@ -8,11 +8,11 @@ get_header();?>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Dashboard Builder</title>
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css">
-    <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css">
-    <link rel="stylesheet" href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/soft-ui-dashboard.min.css?v=1.0.2">
+    <title>User Dashboard</title>
+    <script src="https://kit.fontawesome.com/42d5adcbca.js"></script>
+    <link rel="stylesheet" href="../wp-content/themes/vanced/assets/css/advanced.css">    
+    <link rel="stylesheet" href="../wp-content/themes/vanced/assets/css/add.css">
+    <link rel="stylesheet" href="../wp-content/themes/vanced/assets/css/test.css">
 </head>
 <style>
     a .btn{
@@ -72,7 +72,13 @@ get_header();?>
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Dashboard</span>
+                        <?php 
+                            if ( is_user_logged_in() ) { 
+                            echo 'Welcome ' . $current_user->user_login . "\n"; 
+                            } else { 
+                            wp_loginout(); 
+                            } 
+                        ?>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -192,8 +198,7 @@ get_header();?>
                         </div>
                     </div>
                 </div>
-
-
+                
                 <div class="col-xl-3 col-sm-6">
                     <div class="card mb-4">
                         <div class="card-body p-3">

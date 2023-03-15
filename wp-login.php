@@ -192,6 +192,68 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 
 	?>
 	</head>
+	<style>
+		.homepage-heading {
+	width: 100%;
+	padding-top: 1vw;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+    
+}
+.heading2 {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	gap: 450px;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+.links {
+	display: flex;
+	justify-content: space-evenly;
+    gap: 50px;
+}
+
+
+.list {
+	margin: 20px;
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: #090D5A;
+	display: inline-block;
+
+}
+.btns{
+	color: #fff;
+	padding: 5px;
+}
+.login{
+	background-color: #090D5A;
+	color: #fff;
+	border-radius: 5px	;
+}
+	</style>
+	<div class="homepage-heading">
+        <div class="heading2">
+            <div class="brand">
+                <img src="/wp/vanced/wp-content/themes/vanced/assets/img/brand.jpg" alt="Logo" height="120px">
+            </div>
+            <div class="links">
+                <li class="list"><a href="/wp/vanced/">Home</a></li>
+                <li class="list"><a href="/wp/vanced/about-us/">About Us</a></li>
+                <li class="list"><a href="/wp/vanced/contact/">Contact Us</a></li>
+
+            </div>
+            
+        </div>
+        <div class="login">
+        <a role="button" class="btns" href="/wp/vanced/register/">Register</a>          
+        </div>
+    </div>
 	<body class="login no-js <?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 	<script type="text/javascript">
 		document.body.className = document.body.className.replace('no-js','js');

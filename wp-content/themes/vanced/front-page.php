@@ -11,7 +11,7 @@ get_header();?>
         <a class="nav-link" href="/wp/vanced/" style="text-decoration: none; color: #090D5A; margin-right: 40px;">HOME</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/wp/vanced/about-us" style="text-decoration: none; color: #090D5A; margin-right: 40px;">ABOUT US</a>
+        <a class="nav-link" href="/wp/vanced/#content" style="text-decoration: none; color: #090D5A; margin-right: 40px;">ABOUT US</a>
       </li>
     
       <li class="nav-item">
@@ -19,7 +19,7 @@ get_header();?>
       </li>
     </ul>
     <div class="justify-content-end">
-    <a href="/wp/vanced/wp-login.php/"><button type="button" style= "margin-right: 40px;"class="btn">LOGIN</button></a>
+    <a href="/wp/vanced/auth/"><button type="button" style= "margin-right: 40px;"class="btn">LOGIN</button></a>
     </div>
   </div>
 </nav>
@@ -161,7 +161,7 @@ a .btn{
     <img src="wp-content/themes/vanced/assets/img/home-page-banner.png" alt="">
   </div>
 </div>
-<div class="content">
+<div class="content" id="content">
   <div class="content-header"><h1>ABOUT US</h1></div>
   <div class="content-paragragh">
   <p>Vanced project manager is a project management system<br> that helps you to manage your project within<br> a set period of time.</p>

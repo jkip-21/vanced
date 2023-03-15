@@ -65,7 +65,13 @@ get_header();?>
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Dashboard</span>
+                        <?php 
+                            if ( is_user_logged_in() ) { 
+                            echo 'Welcome ' . $current_user->user_login . "\n"; 
+                            } else { 
+                            wp_loginout(); 
+                            } 
+                        ?>
                     </a>
                 </li>
                 <li class="nav-item">

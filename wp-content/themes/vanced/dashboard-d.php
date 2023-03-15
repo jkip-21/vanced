@@ -54,8 +54,7 @@ endif;
             <div class="container-fluid">
                 <div class="col-lg-12">
                 <h2 class="my-5 text-center text-light">
-                        <?php global $current_user; wp_get_current_user(); ?>
-                        <?php 
+                <?php 
                             if ( is_user_logged_in() ) { 
                             echo 'Welcome ' . $current_user->user_login . "\n"; 
                             } else { 

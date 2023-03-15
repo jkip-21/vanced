@@ -24,7 +24,7 @@ get_header();
       </li>
     </ul>
     <div class="justify-content-end">
-    <a href="/wp/vanced/wp-login.php/"><button type="button" style= "margin-right: 40px;"class="btn">LOGIN</button></a>
+    <a href="/wp/vanced/auth/"><button type="button" style= "margin-right: 40px;"class="btn">LOGIN</button></a>
     </div>
   </div>
 </nav>
@@ -78,7 +78,7 @@ get_header();
         </div>
         <div class="btn">
             <div class="col-xs-4 col-sm-4 col-md-4">
-                <input type="submit" value="SEND" name="submitbtn" class="btns">
+                <input type="submit" value="SEND" name="submitcontact" class="btns">
             </div>
         </div>
         </div>
