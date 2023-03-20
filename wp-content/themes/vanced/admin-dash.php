@@ -4,6 +4,18 @@
  */
 get_header();
 ?>
+<style>
+a .btn {
+    background-color: #090D5A;
+    border-radius: 5px;
+    color: white;
+}
+
+.navbar {
+    margin-top: -7px;
+    margin-left: 275px;
+}
+</style>
 <?php
 
 // if ( isset( $_POST[ 'update-meta' ] ) ) {
@@ -24,7 +36,6 @@ get_header();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Dashboard Builder</title>
     <script src="../wp-content/themes/vanced/assets/js/vanced.js"></script>
     <link rel="stylesheet" href="../wp-content/themes/vanced/assets/css/advanced.css">
     <link rel="stylesheet" href="../wp-content/themes/vanced/assets/css/add.css">
@@ -38,6 +49,15 @@ if (isset($_POST['activate_user']) && isset($_POST['user_id'])) {
     $user_id = intval($_POST['user_id']);
     update_user_meta($user_id, 'registration_status', 'active');
     echo '<div class="alert alert-success">User activated successfully.</div>';
+}
+?>
+<?php
+$users = get_users(array('role__in' => array('developer')));
+
+if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
+    $user_id = intval($_POST['user_id']);
+    update_user_meta($user_id, 'registration_status', 'inactive');
+    echo '<div class="alert alert-success">User deactivated successfully.</div>';
 }
 ?>
 
@@ -133,7 +153,6 @@ if (isset($_POST['activate_user']) && isset($_POST['user_id'])) {
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>office</title>
                                 <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g id="Rounded-Icons" transform="translate(-1869.000000, -293.000000)"
                                         fill="#FFFFFF" fill-rule="nonzero">
@@ -160,7 +179,6 @@ if (isset($_POST['activate_user']) && isset($_POST['user_id'])) {
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>credit-card</title>
                                 <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g id="Rounded-Icons" transform="translate(-2169.000000, -745.000000)"
                                         fill="#FFFFFF" fill-rule="nonzero">
@@ -187,7 +205,6 @@ if (isset($_POST['activate_user']) && isset($_POST['user_id'])) {
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>settings</title>
                                 <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g id="Rounded-Icons" transform="translate(-2020.000000, -442.000000)"
                                         fill="#FFFFFF" fill-rule="nonzero">
@@ -212,12 +229,11 @@ if (isset($_POST['activate_user']) && isset($_POST['user_id'])) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  " href="/wp/vanced/">
+                    <a class="nav-link  " href="/wp/vanced/log-out/">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>settings</title>
                                 <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g id="Rounded-Icons" transform="translate(-2020.000000, -442.000000)"
                                         fill="#FFFFFF" fill-rule="nonzero">
@@ -385,6 +401,7 @@ if (isset($_POST['activate_user']) && isset($_POST['user_id'])) {
                         <td><span <?php
                         $user_register = $user->user_registered;
                         $user_id = $user->ID;
+    
                         $registration_status = get_user_meta($user_id, 'registration_status', true);
                         if ($registration_status == 'pending') {
                             echo 'class="badge bg-danger"';
@@ -396,7 +413,13 @@ if (isset($_POST['activate_user']) && isset($_POST['user_id'])) {
                                     $registration_status = get_user_meta($user_id, 'registration_status', true);
                                     if ($registration_status == 'Completed') {
                                         echo 'class="badge text-bg-success"';
-                                    } ?>><?php
+                                    } ?>>
+                                    <?php
+                                    $registration_status = get_user_meta($user_id, 'registration_status', true);
+                                    if ($registration_status == 'Dismiss') {
+                                        echo 'class="badge text-bg-warning"';
+                                    } ?><?php
+                                    
                                      $registration_status = get_user_meta($user_id, 'registration_status', true);
                                      echo esc_html($registration_status); ?></span></td>
                         <td>
@@ -406,8 +429,10 @@ if (isset($_POST['activate_user']) && isset($_POST['user_id'])) {
                             <div class="flex align-items-center list-user-action">
                                 <form action="" method="post">
                                     <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-                                    <button class="btn btn-success" type="submit" name="activate_user">Activate</button>
+                                    <button class="btn btn-success" type="submit" name="activate_user">Admit</button>
 
+                                    <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                                    <button class="btn btn-danger" type="submit" name="deactivate_user">Dismiss</button>
 
                                 </form>
                             </div>

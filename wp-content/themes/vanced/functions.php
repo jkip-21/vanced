@@ -330,3 +330,283 @@ function wpb_user_count() {
     // Creating a shortcode to display user count
     add_shortcode('user_count', 'wpb_user_count');
     
+    // Creating custom namespaces
+    function register_rest_api_routes(){
+        register_rest_route('task/v1', 'new(/(?P<id>\d+))?',array('callback' => 'get_tasks'));
+    }
+    
+    
+    function get_tasks($data){
+        $id = $data['id'];
+        
+        $args = array(
+            'post_type' => 'project',
+            'post_per_page' => 5,
+            'status' => 'publish',
+        );
+    
+        if (isset($id)) {
+            $args['p'] = $id; // Set the post ID to search for
+        }
+    
+        $new_query = new WP_Query($args);
+        $projects = $new_query->posts;
+    
+        $projects_with_meta = array();
+        foreach ($projects as $project) {
+            $project_id = $project->ID;
+            $project_start = get_post_meta($project_id, 'project_start', true);
+            $project_end = get_post_meta($project_id, 'project_end', true);
+            $project_status = get_post_meta($project_id, 'project_status_select', true);
+            $project_user_id = get_post_meta($project_id, 'project_user', true);
+    
+            // Create an array with the project data and meta
+            $project_with_meta = array(
+                'ID' => $project_id,
+                'post_title' => $project->post_title,
+                'post_content' => $project->post_content,
+                'post_date' => $project->post_date,
+                'project_start' => $project_start,
+                'project_end' => $project_end,
+                'project_status' => $project_status,
+                'project_user_id' => $project_user_id,
+            );
+   // Add the project to the array
+   $projects_with_meta[] = $project_with_meta;
+}
+
+return $projects_with_meta;
+}
+    add_action('rest_api_init', 'register_rest_api_routes');
+
+    // Creating custom namespaces
+    function register_rest_api_contact(){
+        register_rest_route('contact/v1', 'api', array('callback'=>'get_message'));
+    }
+    function get_message(){
+        //retrieve all the posts
+        $args = array(
+            'post_type'=>'contact',
+            'posts_per_page'=> 5,
+            'status'=> 'publish',
+        );       
+        $new_query =new WP_Query($args);
+        $contact= $new_query->posts;
+
+        return $contact;
+    }
+    add_action('rest_api_init', 'register_rest_api_contact');
+
+    
+    function custom_post_type(){
+        $labels = array(
+            'name'=>'Portfolio',
+            'singular_name'=>'Portfolio',
+            'add_new'=>'Add Item',
+            'all_item'=>'All Items',
+            'edit_item'=>'Edit Item',
+            'view_item'=>'View Item',
+            'search_item'=>'Search Portfolio',
+            'not_found'=>'No Portfolio found', 
+            'not_found_in_trash'=>'No items found in trash',
+            'parent_item_colon'=>'Parent Item'
+        );
+    
+        $args = array(
+            'labels'=>$labels,
+            'public'=>true,
+            'has_archive'=>true,
+            'public_queryable'=>true,
+            'query_var'=>true,
+            'rewrite'=>true,
+            'capability_type'=>'post',
+            'hierarchical'=>false,
+            'supports'=>array(
+                'title',
+                'editor',
+                'excerpt',
+                'thumbnail',
+                'revisions'
+            ),
+            // 'taxonomies'=>array('category', 'post_tag'),
+            'menu_position'=>5,
+            'exclude_from_search'=>false
+        );
+    
+        register_post_type('portfolio', $args);
+    }
+    
+    add_action('init','custom_post_type');
+    
+
+//CREATE CUSTOM FIELD REST API
+function custom_rest_api(){
+    register_rest_field('post', 'CustomFieldNew', ['get_callback'=> 'get_custom_field']);
+
+    register_rest_route(
+        'portfolioplugin/v1', 
+        'c8-portfolios', 
+        [
+            'callback'=>'get_c8_portfolios',
+            'method'=>'GET', 
+            'permission_callback'=>'custom_endpoint_permission',
+            'args'=>[
+                'meta_key'=>[
+                    'required'=>true,
+                    'default'=>'_edit_last',
+                    'validate_callback'=>function($param, $request, $key){
+                        return !is_numeric($param);
+                    }
+                ],
+                'meta_value'=>[
+                    'required'=>true,
+                    'default'=>1,
+                    'validate_callback'=>function($param, $request, $key){
+                        return is_numeric($param);
+                    }
+                ]
+                ],
+                'schema'=>'custom_get_post_schema'
+        ]);
+}
+
+
+function custom_get_post_schema(){
+    $schema = [
+        'schema'=>'',
+        'title'=>'all-portfolios',
+        'type'=> 'object',
+
+        'properties'=>[
+            'id'=>[
+                'description'=> esc_html__('Unique identifier for the object', 'my-textdomain'),
+                'type'=>'integer'
+            ],
+            'author'=>[
+                'description'=> esc_html__('The ID of the user object', 'my-textdomain'),
+                'type'=>'integer'
+            ],
+            'title'=>[
+                'description'=>esc_html__('The title of the object', 'my-textdomain'),
+                'type'=>'string'
+            ],
+            'content'=>[
+                'description'=>esc_html__('The content of the object', 'my-textdomain'),
+                'type'=>'string'
+            ],
+            'creation_date'=>[
+                'description'=>esc_html__('The date of creation of the object', 'my-textdomain'),
+                'type'=>'string'
+            ]
+        ]
+
+    ];
+
+    return $schema;
+}
+
+
+
+
+
+function custom_endpoint_permission(){
+    if(is_user_logged_in()){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function get_c8_portfolios(WP_REST_Request $request){
+
+    // echo '<pre>'; print_r($request); '</pre>';
+
+    $meta_key = $request->get_param('meta_key');
+    $meta_value = $request->get_param('meta_value');
+
+    $args=[
+        'post_type'=>'portfolio',
+        'status'=>'publish',
+        'posts_per_page'=>10,
+        'meta_query'=>[[
+            'key'=>$meta_key,
+            'value'=>$meta_value
+        ]]
+    ];
+
+    $the_query = new WP_Query($args);
+
+    $portfolios = $the_query->posts;
+
+    if (empty($portfolios)){
+        return new WP_Error(
+            'no_data_found',
+            'No data found',
+            [
+                'status'=> 404
+            ]
+        );
+    }
+
+    foreach($portfolios as $portfolio){
+        $response = custom_rest_prepare_post($portfolio, $request);
+        $data[] = custom_prepare_for_collection($response);
+    }
+
+    return rest_ensure_response($data);
+
+}
+
+function custom_rest_prepare_post($post, $request){
+    $post_data = [];
+    $schema = custom_get_post_schema();
+
+    if(isset($schema['properties']['id'])){
+        $post_data['id'] = (int) $post->ID;
+    }
+
+    if(isset($schema['properties']['author'])){
+        $post_data['author'] = (int) $post->post_author;
+    }
+
+    if(isset($schema['properties']['title'])){
+        $post_data['title'] = apply_filters('post_heading', $post->post_title, $post);
+    }
+
+    if(isset($schema['properties']['content'])){
+        $post_data['content'] = apply_filters('post_text', $post->post_content, $post);
+    }
+
+    if(isset($schema['properties']['creation_date'])){
+        $post_data['creation_date']= apply_filters('post_date', $post->post_date, $post);
+    }
+
+    return rest_ensure_response($post_data);
+}
+
+function custom_prepare_for_collection($response){
+    if (!($response instanceof WP_REST_Response)){
+        return $response;
+    }
+
+    $data = (array) $response->get_data();
+    $links = rest_get_server()::get_compact_response_links($response);
+
+    if(!empty($links)){
+        $data['_links']= $links;
+    }
+
+    return $data;
+}
+
+function get_custom_field($obj){
+
+    $post_id = $obj['id'];
+
+    // echo 'pre';print_r($post_id); '</pre>';
+
+    return get_post_meta($post_id, 'CustomFieldNew', true);
+
+}
+
+add_action('rest_api_init', 'custom_rest_api');

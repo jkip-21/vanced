@@ -1,9 +1,10 @@
 <?php
 /**
- * Template Name: Add Project
+ * Template Name: Edit Projects
  */
 get_header();
 ?>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,10 +19,11 @@ get_header();
         border-radius: 5px;
         color: white;
     }
-   .navbar {
-    margin-top: -7px;
-    margin-left: 275px;
-}
+
+    .navbar {
+        margin-left: 275px;
+        margin-top: -25px
+    }
 </style>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
@@ -264,7 +266,7 @@ get_header();
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-xl-3 col-sm-6">
                     <div class="card mb-4">
                         <div class="card-body p-3">
@@ -308,83 +310,16 @@ get_header();
 
             </div>
         </div>
+        
         <section class='desc'>
             <div class='container-fluid'>
                 <div class='col-lg-12'>
                     <div class='m-2 card card-outline card-success'>
                         <div class='card-header'>
                             <div class='card-tools'>
-                                <h1>Add project</h1>
+                                <h1>Edit project</h1>
                             </div>
-                            <?php
-
-if (isset($_POST['cpt_nonce_field']) && wp_verify_nonce($_POST['cpt_nonce_field'], 'cpt_nonce_action')) {
-
-    // Check if the user already has an assigned project
-    $developer_id = $_POST['user'];
-    $assigned_projects = get_posts(
-        array(
-            'post_type' => 'project',
-            'meta_query' => array(
-                [
-                    'key' => 'project_user',
-                    'value' => $developer_id,
-                ],
-                [
-                    'key' => 'project_status_select',
-                    'value' => array('Pending', 'In Progress'),
-                    'compare' => 'IN',
-                ],
-            ),
-        )
-    );
-
-    if (!empty($assigned_projects)) {
-        // Developer already has an assigned project, don't assign another
-        $alert_type = 'danger';
-        $alert_message = 'Developer already has an assigned project.';
-    } else {
-        // create post object with the form values
-        // Create a new project post
-        $project_title = sanitize_text_field($_POST['title']);
-        $project_desc = sanitize_text_field($_POST['description']);
-        $project_start_date = sanitize_text_field($_POST['start']);
-        $project_due_date = sanitize_text_field($_POST['due']);
-        $project_status = 'Pending';
-        $project_user = intval($_POST['user']);
-
-        $new_project = array(
-            'post_title' => $project_title,
-            'post_content' => $project_desc,
-            'post_status' => 'publish',
-            'post_type' => $_POST['project'],
-            'meta_input' => array(
-                'project_start' => $project_start_date,
-                'project_end' => $project_due_date,
-                'project_status_select' => $project_status,
-                'project_user' => $project_user,
-            ),
-        );
-        // insert the post into the database
-        $project_start = $_POST['start'];
-
-        global $post;
-        $post_id = $post->ID;
-        $project_id = wp_insert_post($new_project);
-        //add_post_meta($cpt_id,'project_start',$project_start);
-        if ($project_id) {
-            $alert_type = 'success';
-            $alert_message = 'Project assigned successfully.';
-        } else {
-            $alert_type = 'danger';
-            $alert_message = 'Error assigning project. Please try again.';
-        }
-    }
-
-}
-
-?>
-                        </div>
+                            </div>
                         <div class='card-body justify-description-center'>
                             <div class='form-field1'>
                                 <form method="post" action="">
@@ -444,7 +379,7 @@ if (isset($_POST['cpt_nonce_field']) && wp_verify_nonce($_POST['cpt_nonce_field'
                                 </div>
                                 <div class='btns-section'>
                                 <div class="btn-sec1">
-                                <button class="btn btn-primary px-5" type="submit"><?php _e('ADD', 'mytextdomain') ?></button>
+                                <button class="btn btn-primary px-5" type="submit"><?php _e('EDIT', 'mytextdomain') ?></button>
                     <input type='hidden' name='project' id='project' value='project' />
                                 </div>
                             </div>
@@ -454,6 +389,5 @@ if (isset($_POST['cpt_nonce_field']) && wp_verify_nonce($_POST['cpt_nonce_field'
                         </div>
                     </div>
         </section>
-
-        <?php get_footer();
-        ?>
+                    <?php                   
+                            ?>
