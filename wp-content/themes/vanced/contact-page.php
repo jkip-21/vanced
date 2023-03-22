@@ -134,7 +134,7 @@ get_header();
       </div>
       <div class="btn">
         <div class="col-xs-4 col-sm-4 col-md-4">
-        <button class="btn btn-primary px-5" type="submit"><?php _e('SEND', 'mytextdomain') ?></button>
+        <button class="btn btn-primary px-5" type="submit" name="sendcontact"><?php _e('SEND', 'mytextdomain') ?></button>
         </div>
       </div>
   </div>

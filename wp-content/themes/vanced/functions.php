@@ -209,12 +209,12 @@ function projects_page_template($template) {
         $user = new WP_User( $current_user->ID);
 
         if(in_array('project_manager', $user->roles) || in_array('administrator', $user->roles)){
-            $new_template = locate_template( array( 'page-projects.php' ) );
+            $new_template = locate_template( array( 'projects.php' ) );
         }
         elseif(in_array('developer', $user->roles)){
-            $new_template = locate_template( array( 'page-projects.php' ) );
+            $new_template = locate_template( array( 'user-dashboard.php' ) );
         }else{
-            $new_template = locate_template( array( 'landing-page.php' ) );
+            $new_template = locate_template( array( 'front-page.php' ) );
         }
         if ( '' != $new_template ) {
             $template = $new_template;
@@ -234,12 +234,12 @@ function profile_page_template($template) {
         $user = new WP_User( $current_user->ID);
 
         if(in_array('project_manager', $user->roles) || in_array('administrator', $user->roles)){
-            $new_template = locate_template( array( 'page-profile.php' ) );
+            $new_template = locate_template( array( 'admin-dash.php' ) );
         }
         elseif(in_array('developer', $user->roles)){
-            $new_template = locate_template( array( 'page-profile-member.php' ) );
+            $new_template = locate_template( array( 'user-dashboard.php' ) );
         }else{
-            $new_template = locate_template( array( 'landing-page.php' ) );
+            $new_template = locate_template( array( 'front-page.php' ) );
         }
         if ( '' != $new_template ) {
             $template = $new_template;
@@ -303,6 +303,14 @@ remove_role( 'editor' );
 remove_role( 'contributor' );
 remove_role( 'author' );
 remove_role( 'dev' );
+remove_role( 'custom_role' );
+// Add a custom user role
+add_role( 'member', 'Member', array(
+    'read' => true,
+    'edit_posts' => false,
+    'delete_posts' => false,
+));
+
 // =====================================
 //Adding new roles to admin dashboard
 // =====================================
@@ -332,7 +340,7 @@ function wpb_user_count() {
     
     // Creating custom namespaces
     function register_rest_api_routes(){
-        register_rest_route('task/v1', 'new(/(?P<id>\d+))?',array('callback' => 'get_tasks'));
+        register_rest_route('projects/v1', 'api(/(?P<id>\d+))?',array('callback' => 'get_tasks'));
     }
     
     
@@ -378,6 +386,43 @@ function wpb_user_count() {
 return $projects_with_meta;
 }
     add_action('rest_api_init', 'register_rest_api_routes');
+    /**
+ * This is our callback function that embeds our resource in a WP_REST_Response
+ */
+function prefix_get_private_data() {
+    // rest_ensure_response() wraps the data we want to return into a WP_REST_Response, and ensures it will be properly returned.
+    return rest_ensure_response( 'This is private data.' );
+}
+
+/**
+ * This is our callback function that embeds our resource in a WP_REST_Response
+ */
+function prefix_get_private_data_permissions_check() {
+    // Restrict endpoint to only users who have the edit_posts capability.
+    if ( ! current_user_can( 'edit_posts' ) ) {
+        return new WP_Error( 'rest_forbidden', esc_html__( 'OMG you can not view private data.', 'my-text-domain' ), array( 'status' => 401 ) );
+    }
+
+    // This is a black-listing approach. You could alternatively do this via white-listing, by returning false here and changing the permissions check.
+    return true;
+}
+
+/**
+ * This function is where we register our routes for our example endpoint.
+ */
+function prefix_register_example_routes() {
+    // register_rest_route() handles more arguments but we are going to stick to the basics for now.
+    register_rest_route( 'projects/v1', '/private-data', array(
+        // By using this constant we ensure that when the WP_REST_Server changes our readable endpoints will work as intended.
+        'methods'  => WP_REST_Server::READABLE,
+        // Here we register our callback. The callback is fired when this endpoint is matched by the WP_REST_Server class.
+        'callback' => 'prefix_get_private_data',
+        // Here we register our permissions callback. The callback is fired before the main callback to check if the current user can access the endpoint.
+        'permission_callback' => 'prefix_get_private_data_permissions_check',
+    ) );
+}
+
+add_action( 'rest_api_init', 'prefix_register_example_routes' );
 
     // Creating custom namespaces
     function register_rest_api_contact(){

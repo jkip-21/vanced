@@ -57,7 +57,6 @@ $users = get_users(array('role__in' => array('developer')));
 if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
     $user_id = intval($_POST['user_id']);
     update_user_meta($user_id, 'registration_status', 'inactive');
-    echo '<div class="alert alert-success">User deactivated successfully.</div>';
 }
 ?>
 
@@ -91,7 +90,7 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
             </li>
         </ul>
         <div class="justify-content-end">
-            <a href="/wp/vanced/"><button type="button" style="margin-right: 40px;" class="btn">LOG OUT</button></a>
+            <a href="<?php echo esc_url(wp_logout_url(get_permalink())); ?>"><button type="button" style="margin-right: 40px;" class="btn">LOG OUT</button></a>
         </div>
     </div>
 </nav>
@@ -229,7 +228,33 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  " href="/wp/vanced/log-out/">
+                    <a class="nav-link  " href="/wp/vanced/project/">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="Rounded-Icons" transform="translate(-2169.000000, -745.000000)"
+                                        fill="#FFFFFF" fill-rule="nonzero">
+                                        <g id="Icons-with-opacity" transform="translate(1716.000000, 291.000000)">
+                                            <g id="message" transform="translate(453.000000, 454.000000)">
+                                                <path class="color-background"
+                                                    d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
+                                                    id="Path" opacity="0.593633743"></path>
+                                                <path class="color-background"
+                                                    d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"
+                                                    id="Shape"></path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Messages</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  " href="<?php echo esc_url(wp_logout_url(get_permalink())); ?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1"
@@ -339,6 +364,7 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                 </div>
                 <?php
                 $user_count = count_users();
+                
                 ?>
                 <div class="col-xl-3 col-sm-6">
                     <div class="card mb-4">
@@ -381,8 +407,8 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                     'orderby' => 'ID',
                     'order' => 'ASC',
                 );
-                
-                $users = get_users( $args );
+                $users = get_users(array('role__in' => array('developer','member')));
+                // $users = get_users( $args );
                 foreach ($users as $user) { ?>
 
 
@@ -392,8 +418,7 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                             <?php echo $user->ID; ?>
                         </td>
                         <td>
-                            <?php echo $user->display_name;
-                            ; ?>
+                            <?php echo $user->display_name;?>
                         </td>
                         <td>
                             <?php echo $user->user_email; ?>
@@ -401,13 +426,15 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                         <td><span <?php
                         $user_register = $user->user_registered;
                         $user_id = $user->ID;
-    
                         $registration_status = get_user_meta($user_id, 'registration_status', true);
                         if ($registration_status == 'pending') {
+                            $user->set_role('member');
                             echo 'class="badge bg-danger"';
                         } ?>     <?php
                               $registration_status = get_user_meta($user_id, 'registration_status', true);
                               if ($registration_status == 'active') {
+                                update_user_meta($user_id, 'account_status', 'active');
+                                $user->set_role('developer'); 
                                   echo 'class="badge text-bg-success"';
                               } ?>     <?php
                                     $registration_status = get_user_meta($user_id, 'registration_status', true);
@@ -416,8 +443,10 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                                     } ?>>
                                     <?php
                                     $registration_status = get_user_meta($user_id, 'registration_status', true);
-                                    if ($registration_status == 'Dismiss') {
-                                        echo 'class="badge text-bg-warning"';
+                                    if ($registration_status == 'inactive') {
+                                        update_user_meta($user_id, 'account_status', 'inactive');
+                                        $user->set_role('member');
+                                
                                     } ?><?php
                                     
                                      $registration_status = get_user_meta($user_id, 'registration_status', true);
@@ -428,12 +457,26 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                         <td>
                             <div class="flex align-items-center list-user-action">
                                 <form action="" method="post">
-                                    <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                                    <?php 
+                                 if($registration_status == 'inactive'){?>
+                                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
                                     <button class="btn btn-success" type="submit" name="activate_user">Admit</button>
-
+                                    <?php }//else{?>
+                                   <?php if($registration_status == 'active'){?>
                                     <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-                                    <button class="btn btn-danger" type="submit" name="deactivate_user">Dismiss</button>
+                                    <button class="btn btn-danger" type="submit" name="deactivate_user">Deactivate</button>
+                                 <?php }if($registration_status == 'pending'){?>?>
+                                    
+                                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                                    <button class="btn btn-success" type="submit" name="activate_user">Activate</button>
+                                    <?php }//else{?>
+                                    <input type = 'hidden' name = 'post-id' value = '<?php echo $user_id; ?>'><button class = 'btn btn-primary'type = 'submit' name = 'delete_post'>Del</button>
+                                 <?php
+                                 //}
+                                 ?>
+                                    
 
+                                    
                                 </form>
                             </div>
                         </td>

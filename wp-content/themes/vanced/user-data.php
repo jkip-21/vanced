@@ -30,7 +30,7 @@ get_header();?>
       </li>
     </ul>
     <div class="justify-content-end">
-    <a href="/wp/vanced/"><button type="button" style= "margin-right: 40px;"class="btn">LOG OUT</button></a>
+    <a href="<?php echo esc_url(wp_logout_url(get_permalink())); ?>"><button type="button" style= "margin-right: 40px;"class="btn">LOG OUT</button></a>
     </div>
   </div>
 </nav>  
@@ -115,7 +115,7 @@ get_header();?>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  " href="/wp/vanced/">
+                    <a class="nav-link  " href="<?php echo esc_url(wp_logout_url(get_permalink())); ?>">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <title>settings</title>

@@ -45,7 +45,7 @@ style = 'text-decoration: none; color: #090D5A;margin-right: 40px;'>CONTACT US</
 </li>
 </ul>
 <div class = 'justify-content-end'>
-<a href = '/wp/vanced/'><button type = 'button' style = 'margin-right: 40px;' class = 'btn'>LOG OUT</button></a>
+<a href = '<?php echo esc_url(wp_logout_url(get_permalink())); ?>'><button type = 'button' style = 'margin-right: 40px;' class = 'btn'>LOG OUT</button></a>
 </div>
 </div>
 </nav>
@@ -185,7 +185,7 @@ id = 'Path'></path>
 </a>
 </li>
 <li class = 'nav-item'>
-<a class = 'nav-link  ' href = '/wp/vanced/'>
+<a class = 'nav-link  ' href = '<?php echo esc_url(wp_logout_url(get_permalink())); ?>'>
 <div
 
 class = 'icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center'>
@@ -352,24 +352,6 @@ $query = new WP_Query(
 );
 query_posts($query);
 
-// The Loop
-if ($query->have_posts()):
-    while ($query->have_posts()):
-        $query->the_post();
-        // your post content ( title, excerpt, thumb.... )
-        $project_desc = get_post_meta(get_the_ID(), 'project_desc', true);
-        $project_start = get_post_meta(get_the_ID(), 'project_start', true);
-        $project_due = get_post_meta(get_the_ID(), 'project_due', true);
-        $project_status = get_post_meta(get_the_ID(), 'project_status_select', true);
-
-        $project_user_id = get_post_meta(get_the_ID(), 'project_user', true);
-
-    endwhile;
-    //Reset Query
-    wp_reset_query();
-endif;
-?>
-<?php
 
 if (isset($_POST[ 'update-meta' ])) {
     $post_id = $_POST[ 'post-id' ];
@@ -408,7 +390,7 @@ if ($query->have_posts()):
         $query->the_post();
 
         // your post content ( title, excerpt, thumb.... )
-        $project_desc = get_post_meta(get_the_ID(), 'project_desc', true);
+        // $project_desc = get_post_meta(get_the_ID(), 'project_desc', true);
         $project_start = get_post_meta(get_the_ID(), 'project_start', true);
         $project_end = get_post_meta(get_the_ID(), 'project_end', true);
         $project_status = get_post_meta(get_the_ID(), 'project_status_select', true);
@@ -462,10 +444,15 @@ if ($query->have_posts()):
 </td>
 <td>
 <div class = 'mt-2 d-flex gap-1' >
-<a href = '/wp/vanced/updates/'><input class = 'btn btn-primary'type = 'button' value = 'Edit'></a>
+<a href="../updates/?post_id=<?php echo get_the_ID(); ?>"><input class="btn btn-primary"type="button" value="Edit"></a>
 <form action = '' method = 'post'>
 <input type = 'hidden' name = 'meta-field' value = "<?php echo get_post_meta(get_the_ID(), 'project_user', true); ?>">
-<input type = 'hidden' name = 'post-id' value = '<?php echo get_the_ID(); ?>'>
+<input type = 'hidden' name = 'post-id' value = '<?php 
+if ($project_status == 'Completed' ) {
+   echo get_the_ID();;
+}else{
+    echo $alert_message;
+}  ?>'>
 <button class = 'btn btn-primary'type = 'submit' name = 'delete_post'>Del</button>
 </form>
 </div>

@@ -1,6 +1,6 @@
 <?php 
 /**
- * Template Name: Edit Project
+ * Template Name: Edit-Project
  */
 
 get_header();

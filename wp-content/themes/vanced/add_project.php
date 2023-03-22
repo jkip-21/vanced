@@ -4,6 +4,7 @@
  */
 get_header();
 ?>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,10 +19,11 @@ get_header();
         border-radius: 5px;
         color: white;
     }
-   .navbar {
-    margin-top: -7px;
-    margin-left: 275px;
-}
+
+    .navbar {
+        margin-top: -7px;
+        margin-left: 275px;
+    }
 </style>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
@@ -178,7 +180,7 @@ get_header();
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  " href="/wp/vanced/">
+                    <a class="nav-link  " href="<?php echo esc_url(wp_logout_url(get_permalink())); ?>">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1"
@@ -264,7 +266,7 @@ get_header();
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-xl-3 col-sm-6">
                     <div class="card mb-4">
                         <div class="card-body p-3">
@@ -318,72 +320,72 @@ get_header();
                             </div>
                             <?php
 
-if (isset($_POST['cpt_nonce_field']) && wp_verify_nonce($_POST['cpt_nonce_field'], 'cpt_nonce_action')) {
+                            if (isset($_POST['cpt_nonce_field']) && wp_verify_nonce($_POST['cpt_nonce_field'], 'cpt_nonce_action')) {
 
-    // Check if the user already has an assigned project
-    $developer_id = $_POST['user'];
-    $assigned_projects = get_posts(
-        array(
-            'post_type' => 'project',
-            'meta_query' => array(
-                [
-                    'key' => 'project_user',
-                    'value' => $developer_id,
-                ],
-                [
-                    'key' => 'project_status_select',
-                    'value' => array('Pending', 'In Progress'),
-                    'compare' => 'IN',
-                ],
-            ),
-        )
-    );
+                                // Check if the user already has an assigned project
+                                $developer_id = $_POST['user'];
+                                $assigned_projects = get_posts(
+                                    array(
+                                        'post_type' => 'project',
+                                        'meta_query' => array(
+                                            [
+                                                'key' => 'project_user',
+                                                'value' => $developer_id,
+                                            ],
+                                            [
+                                                'key' => 'project_status_select',
+                                                'value' => array('Pending', 'In Progress'),
+                                                'compare' => 'IN',
+                                            ],
+                                        ),
+                                    )
+                                );
 
-    if (!empty($assigned_projects)) {
-        // Developer already has an assigned project, don't assign another
-        $alert_type = 'danger';
-        $alert_message = 'Developer already has an assigned project.';
-    } else {
-        // create post object with the form values
-        // Create a new project post
-        $project_title = sanitize_text_field($_POST['title']);
-        $project_desc = sanitize_text_field($_POST['description']);
-        $project_start_date = sanitize_text_field($_POST['start']);
-        $project_due_date = sanitize_text_field($_POST['due']);
-        $project_status = 'Pending';
-        $project_user = intval($_POST['user']);
+                                if (!empty($assigned_projects)) {
+                                    // Developer already has an assigned project, don't assign another
+                                    $alert_type = 'danger';
+                                    $alert_message = 'Developer already has an assigned project.';
+                                } else {
+                                    // create post object with the form values
+                                    // Create a new project post
+                                    $project_title = sanitize_text_field($_POST['title']);
+                                    $project_desc = sanitize_text_field($_POST['description']);
+                                    $project_start_date = sanitize_text_field($_POST['start']);
+                                    $project_due_date = sanitize_text_field($_POST['due']);
+                                    $project_status = 'Pending';
+                                    $project_user = intval($_POST['user']);
 
-        $new_project = array(
-            'post_title' => $project_title,
-            'post_content' => $project_desc,
-            'post_status' => 'publish',
-            'post_type' => $_POST['project'],
-            'meta_input' => array(
-                'project_start' => $project_start_date,
-                'project_end' => $project_due_date,
-                'project_status_select' => $project_status,
-                'project_user' => $project_user,
-            ),
-        );
-        // insert the post into the database
-        $project_start = $_POST['start'];
+                                    $new_project = array(
+                                        'post_title' => $project_title,
+                                        'post_content' => $project_desc,
+                                        'post_status' => 'publish',
+                                        'post_type' => $_POST['project'],
+                                        'meta_input' => array(
+                                            'project_start' => $project_start_date,
+                                            'project_end' => $project_due_date,
+                                            'project_status_select' => $project_status,
+                                            'project_user' => $project_user,
+                                        ),
+                                    );
+                                    // insert the post into the database
+                                    $project_start = $_POST['start'];
 
-        global $post;
-        $post_id = $post->ID;
-        $project_id = wp_insert_post($new_project);
-        //add_post_meta($cpt_id,'project_start',$project_start);
-        if ($project_id) {
-            $alert_type = 'success';
-            $alert_message = 'Project assigned successfully.';
-        } else {
-            $alert_type = 'danger';
-            $alert_message = 'Error assigning project. Please try again.';
-        }
-    }
+                                    global $post;
+                                    $post_id = $post->ID;
+                                    $project_id = wp_insert_post($new_project);
+                                    //add_post_meta($cpt_id,'project_start',$project_start);
+                                    if ($project_id) {
+                                        $alert_type = 'success';
+                                        $alert_message = 'Project assigned successfully.';
+                                    } else {
+                                        $alert_type = 'danger';
+                                        $alert_message = 'Error assigning project. Please try again.';
+                                    }
+                                }
 
-}
+                            }
 
-?>
+                            ?>
                         </div>
                         <div class='card-body justify-description-center'>
                             <div class='form-field1'>
@@ -403,6 +405,7 @@ if (isset($_POST['cpt_nonce_field']) && wp_verify_nonce($_POST['cpt_nonce_field'
                                         </div>
                                         <?php
                                         // Get all users with the "User" role
+                                        $user_status = "active";
                                         $users = get_users(
                                             array(
                                                 'role' => 'developer',
@@ -419,7 +422,11 @@ if (isset($_POST['cpt_nonce_field']) && wp_verify_nonce($_POST['cpt_nonce_field'
                                             <select class="form-control" id="user" name="user" required>
                                                 <option value="">Assign User:</option>
                                                 <?php foreach ($user_options as $user_id => $user_name): ?>
-                                                    <option value="<?php echo $user_id; ?>"><?php echo $user_name; ?>
+                                                    <option value="<?php if ($user_status = "active") {
+                                                        echo $user_id;
+                                                    } else {
+                                                        echo 'Not Possible';
+                                                    } ?>"><?php echo $user_name; ?>
                                                     </option>
                                                 <?php endforeach; ?>
                                             </select>
@@ -437,18 +444,22 @@ if (isset($_POST['cpt_nonce_field']) && wp_verify_nonce($_POST['cpt_nonce_field'
                                         <input type='date' class='form-control' name='due' placeholder='' required>
                                     </div>
                                     <div class='form-outline mb-4 '>
-                                        <label class='form-label' for='textAreaExample6'><?php _e('Project Description:', 'mytextdomain'); ?></label>
+                                        <label class='form-label' for='textAreaExample6'>
+                                            <?php _e('Project Description:', 'mytextdomain'); ?>
+                                        </label>
                                         <textarea class='form-control' id='textAreaExample6' name="description" rows='5'
                                             placeholder="Enter project description..." required></textarea>
                                     </div>
                                 </div>
                                 <div class='btns-section'>
-                                <div class="btn-sec1">
-                                <button class="btn btn-primary px-5" type="submit"><?php _e('ADD', 'mytextdomain') ?></button>
-                    <input type='hidden' name='project' id='project' value='project' />
+                                    <div class="btn-sec1">
+                                        <button class="btn btn-primary px-5" type="submit">
+                                            <?php _e('ADD', 'mytextdomain') ?>
+                                        </button>
+                                        <input type='hidden' name='project' id='project' value='project' />
+                                    </div>
                                 </div>
-                            </div>
-                                <?php wp_nonce_field( 'cpt_nonce_action', 'cpt_nonce_field' ); ?>
+                                <?php wp_nonce_field('cpt_nonce_action', 'cpt_nonce_field'); ?>
                                 </form>
                             </div>
                         </div>

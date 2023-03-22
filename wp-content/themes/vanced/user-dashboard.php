@@ -37,7 +37,7 @@ get_header();?>
       </li>
     </ul>
     <div class="justify-content-end">
-    <a href="/wp/vanced/"><button type="button" style= "margin-right: 40px;"class="btn">LOG OUT</button></a>
+    <a href="<?php echo esc_url(wp_logout_url(get_permalink())); ?>"><button type="button" style= "margin-right: 40px;"class="btn">LOG OUT</button></a>
     </div>
   </div>
 </nav>  
@@ -122,7 +122,7 @@ get_header();?>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  " href="/wp/vanced/">
+                    <a class="nav-link  " href="<?php echo esc_url(wp_logout_url(get_permalink())); ?>">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <title>settings</title>
@@ -156,6 +156,7 @@ get_header();?>
                
             </div>
         </nav>
+        
         <div class="container-fluid pt-3">
             <div class="row removable">
                 <div class="col-xl-3 col-sm-6">
@@ -218,6 +219,7 @@ get_header();?>
                         </div>
                     </div>
                 </div>
+                <form action="">
                 <div class="col-xl-3 col-sm-6">
                     <div class="card mb-4">
                         <div class="card-body p-3">
@@ -225,13 +227,13 @@ get_header();?>
                                 <div class="col-8">
                                     <div class="numbers">
                                     <form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
-                                        <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search"></form>
+                                        <input class="form-control form-control-sm ml-3 " type="text" placeholder="Search" aria-label="Search"></form>
                                     </div>
                                 </div>
                                 <div class="col-4 text-end">
-                                    <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                        <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
-                                    </div>
+                                    
+                                        <input style="border-radius: 5px; background-color: #090D5A; color:#fff" type="submit" value="Search">
+                                    
                                 </div>
                             </div>
                         </div>
@@ -265,4 +267,5 @@ get_header();?>
     </tr>
   </tbody>
   </table>
+        </form>
   <?php get_footer();?>
