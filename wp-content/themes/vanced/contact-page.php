@@ -78,50 +78,9 @@ get_header();
     <h1 style="text-align: center;">CONTACT US</h1>
     <?php
 
-    if (isset($_POST['cpt_nonce_field']) && wp_verify_nonce($_POST['cpt_nonce_field'], 'cpt_nonce_action')) {
-
-      // Check if the user already has an assigned project
-      $assigned_projects = get_posts(
-        array(
-          'post_type' => 'contact',
-        )
-      ); {
-        // create post object with the form values
-        // Create a new contact post
-        $contact_email = sanitize_text_field($_POST['useremail']);
-        $contact_message = sanitize_text_field($_POST['message']);
-
-
-        $new_contact = array(
-          'post_title' => $contact_email,
-          'post_content' => $contact_message,
-          'post_status' => 'publish',
-          // 'post_type' => $_POST['contact'],
-        );
-        // insert the post into the database
-    
-        global $post;
-        $post_id = $post->ID;
-        $contact_id = wp_insert_post($new_contact);
-
-        if ($contact_id) {
-          $alert_type = 'success';
-          $alert_message = 'Contact sent successfully.';
-        } else {
-          $alert_type = 'danger';
-          $alert_message = 'Please try again.';
-        }
-      }
-
-    }
 
     ?>
     <form action="" method="post" style="width:40vw; box-shadow:3px 3px 3px 3px 3px grey; padding:30px;">
-      <?php if (isset($alert_message)): ?>
-        <div class="alert alert-<?php echo $alert_type; ?> mb-3" role="alert">
-          <?php echo $alert_message; ?>
-        </div>
-      <?php endif; ?>
       <div class="form-group">
         <label for="email" style="color: #090D5A; font-weight: w800; font-size: 20px"><?php _e('Email:', 'mytextdomain');?></label>
         <input type="email" class="form-control input-sm mb-4" name="useremail" id="email" ,

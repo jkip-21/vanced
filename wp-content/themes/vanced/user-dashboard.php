@@ -241,6 +241,18 @@ get_header();?>
             
         </div>
         <?php
+        if (isset($_POST['accepted'])) {
+            $post_id = $_POST['post-id'];
+            $new_value = $_POST['meta-field'];
+            update_post_meta($post_id, 'project_status_select', $new_value);
+        }
+        
+        if (isset($_POST['completed'])) {
+            $post_id = $_POST['project-id'];
+            $new_value = $_POST['meta-field2'];
+            update_post_meta($post_id, 'project_status_select', $new_value);
+        }
+        
         $current_user = wp_get_current_user();
         $user = new WP_User( $current_user ->ID);
         $project_status = get_post_meta(get_the_ID(), 'project_status_select', true);
