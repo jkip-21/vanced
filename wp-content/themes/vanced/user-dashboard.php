@@ -187,7 +187,7 @@ get_header();?>
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold">COMPLETE</p>
 
-                                            <h5 class="text-success mb-0 font-weight-bolder">0</h5>
+                                            <h5 class="text-success mb-0 font-weight-bolder">1</h5>
                                     
                                     </div>
                                 </div>
@@ -207,7 +207,7 @@ get_header();?>
                                 <div class="col-8">
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold">In Progress</p>
-                                        <h5 class="text-success mb-0 font-weight-bolder">0</h5>
+                                        <h5 class="text-success mb-0 font-weight-bolder">1</h5>
                                     </div>
                                 </div>
                                 <div class="col-4 text-end">
@@ -227,7 +227,7 @@ get_header();?>
                                 <div class="col-8">
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold">Pending</p>
-                                        <h5 class="text-success mb-0 font-weight-bolder">0</h5>
+                                        <h5 class="text-success mb-0 font-weight-bolder">1</h5>
                                     </div>
                                 </div>
                                 <div class="col-4 text-end">
@@ -238,29 +238,6 @@ get_header();?>
                             </div>
                         </div>
                     </div>
-                </div>
-                <form action="">
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card mb-4">
-                        <div class="card-body p-3">
-                            <div class="row">
-                                <div class="col-8">
-                                    <div class="numbers">
-                                    <form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
-                                        <input class="form-control form-control-sm ml-3 " type="text" placeholder="Search" aria-label="Search"></form>
-                                    </div>
-                                </div>
-                                <div class="col-4 text-end">
-                                    
-                                        <input style="border-radius: 5px; background-color: #090D5A; color:#fff" type="submit" value="Search">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
             
         </div>
         <?php
@@ -356,25 +333,25 @@ if ( $project_user_id ) {
         <?php the_content()?></td>
       <td><?php echo esc_attr( $project_start )?></td>
       <td><?php echo esc_attr( $project_end )?></td>
-      <td><?php echo esc_attr( $project_status )?></td>
+      <td> <p class="mt-2"><span class=''><?php echo esc_attr( $project_status ) ;?></span></p>    </td>
       <td>
-           <div class="mt-2 d-flex gap-1" >
-                        <form action="" method="post">
-                            <input type="hidden" name="meta-field" value="In Progress">
-                            <input type="hidden" name="post-id" value="<?php echo get_the_ID(); ?>">                      
-                            <button class="btn btn-primary"type="submit" name="accepted" <?php if ($project_status == 'In Progress' || $project_status == 'Completed') { echo'disabled'; } ?> >Accept</button>
-                        </form>
-                    </div>
-                </td>
-                <td>
-                    <div class="mt-2 d-flex gap-1" >
-                        <form action="" method="post">
-                            <input type="hidden" name="meta-field2" value="Completed">
-                            <input type="hidden" name="project-id" value="<?php echo get_the_ID(); ?>">
-                            <button class="btn btn-secondary" type="submit" name="completed" <?php if ($project_status == 'Completed' || $project_status == 'Pending') { echo'disabled'; } ?>>Completed</button>
-                        </form>
-           </div>                       
-        </td>
+                                            <div class="mt-2 d-flex gap-1" >
+                                                <form action="" method="post">
+                                                    <input type="hidden" name="meta-field" value="In Progress">
+                                                    <input type="hidden" name="post-id" value="<?php echo get_the_ID(); ?>">                      
+                                                    <button class="btn btn-primary"type="submit" name="accepted" <?php if ($project_status == 'In Progress' || $project_status == 'Completed') { echo'disabled'; } ?> >Accept</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="mt-2 d-flex gap-1" >
+                                                <form action="" method="post">
+                                                    <input type="hidden" name="meta-field2" value="Completed">
+                                                    <input type="hidden" name="project-id" value="<?php echo get_the_ID(); ?>">
+                                                    <button class="btn btn-primary"type="submit" name="completed" <?php if ($project_status == 'Completed' || $project_status == 'Pending') { echo'disabled'; } ?>>Completed</button>
+                                                </form>
+                                            </div>                       
+                                        </td>
     </tr>
   </tbody>
   </table>

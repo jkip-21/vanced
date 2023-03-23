@@ -305,9 +305,32 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
+                                    <?php
+    $parameter = array(
+        'post_type' => 'project',
+        'posts_per_page' => -1
+    );
+    $query = new WP_Query($parameter);
+
+    $total_projects = $query->found_posts;
+
+    $args = array(
+        'post_type' => 'project',
+        'posts_per_page' => -1,
+        'meta_query' => array(
+            array(
+                'key' => 'project_status_select',
+                'value' => 'completed'
+            )
+        )
+    );
+    $query = new WP_Query($args);
+    $total_complete = $query->found_posts;
+?>
+
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold">COMPLETE</p>
 
-                                        <h5 class="text-success mb-0 font-weight-bolder">0</h5>
+                                        <h5 class="text-success mb-0 font-weight-bolder"><?php echo $total_complete?></h5>
 
                                     </div>
                                 </div>
@@ -327,8 +350,31 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
+                                    <?php
+    $parameter = array(
+        'post_type' => 'project',
+        'posts_per_page' => -1
+    );
+    $query = new WP_Query($parameter);
+
+    $total_projects = $query->found_posts;
+
+    $args = array(
+        'post_type' => 'project',
+        'posts_per_page' => -1,
+        'meta_query' => array(
+            array(
+                'key' => 'project_status_select',
+                'value' => 'In Progress'
+            )
+        )
+    );
+    $query = new WP_Query($args);
+    $total_progress = $query->found_posts;
+?>
+
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold">In Progress</p>
-                                        <h5 class="text-success mb-0 font-weight-bolder">0</h5>
+                                        <h5 class="text-success mb-0 font-weight-bolder"><?php echo $total_progress?></h5>
                                     </div>
                                 </div>
                                 <div class="col-4 text-end">
@@ -349,8 +395,31 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
+                                    <?php
+    $parameter = array(
+        'post_type' => 'project',
+        'posts_per_page' => -1
+    );
+    $query = new WP_Query($parameter);
+
+    $total_projects = $query->found_posts;
+
+    $args = array(
+        'post_type' => 'project',
+        'posts_per_page' => -1,
+        'meta_query' => array(
+            array(
+                'key' => 'project_status_select',
+                'value' => 'Pending'
+            )
+        )
+    );
+    $query = new WP_Query($args);
+    $total_pending = $query->found_posts;
+?>
+
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold">Pending</p>
-                                        <h5 class="text-success mb-0 font-weight-bolder">0</h5>
+                                        <h5 class="text-success mb-0 font-weight-bolder"><?php echo $total_pending?></h5>
                                     </div>
                                 </div>
                                 <div class="col-4 text-end">
@@ -466,7 +535,7 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                                    <?php if($registration_status == 'active'){?>
                                     <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
                                     <button class="btn btn-danger" type="submit" name="deactivate_user">Deactivate</button>
-                                 <?php }if($registration_status == 'pending'){?>?>
+                                 <?php }if($registration_status == 'pending'){?>
                                     
                                         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
                                     <button class="btn btn-success" type="submit" name="activate_user">Activate</button>
@@ -485,6 +554,55 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                 <?php } ?>
             </tbody>
         </table>
+        <body> 
+       <h2>Find Your Location in below Map</h2> 
+        <button onclick="getlocation();"> Show Position</button> 
+        <div id="demo" style="width: 600px; height: 400px; margin-left: 200px;"></div> 
+       
+        <script src="https://maps.google.com/maps/api/js?sensor=false"> </script> 
+        
+        <script type="text/javascript"> 
+        function getlocation(){ 
+            if(navigator.geolocation){ 
+                navigator.geolocation.getCurrentPosition(showPos, showErr); 
+            }
+            else{
+                alert("Sorry! your Browser does not support Geolocation API")
+            }
+        } 
+        //Showing Current Poistion on Google Map
+        function showPos(position){ 
+            latt = position.coords.latitude; 
+            long = position.coords.longitude; 
+            var lattlong = new google.maps.LatLng(latt, long); 
+            var myOptions = { 
+                center: lattlong, 
+                zoom: 15, 
+                mapTypeControl: true, 
+                navigationControlOptions: {style:google.maps.NavigationControlStyle.SMALL} 
+            } 
+            var maps = new google.maps.Map(document.getElementById("demo"), myOptions); 
+            var markers = 
+            new google.maps.Marker({position:lattlong, map:maps, title:"You are here!"}); 
+        } 
 
+        //Handling Error and Rejection
+             function showErr(error) {
+              switch(error.code){
+              case error.PERMISSION_DENIED:
+             alert("User denied the request for Geolocation API.");
+              break;
+             case error.POSITION_UNAVAILABLE:
+             alert("USer location information is unavailable.");
+            break;
+            case error.TIMEOUT:
+            alert("The request to get user location timed out.");
+            break;
+           case error.UNKNOWN_ERROR:
+            alert("An unknown error occurred.");
+            break;
+           }
+        }        </script> 
+    </body> 
         <?php get_footer();
         ?>

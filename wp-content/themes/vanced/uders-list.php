@@ -291,7 +291,8 @@ get_header();?>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $user) { ?>
+                <?php 
+                foreach ($users as $user) { ?>
                     <tr>
                         <td><?php echo $user->ID; ?></td>
                         <td><?php echo $user->display_name; ?></td>

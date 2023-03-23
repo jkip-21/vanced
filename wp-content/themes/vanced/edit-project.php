@@ -3,38 +3,11 @@
  * Template Name: Edit Projects
  */
 get_header();
-  // handle form submission
-if (isset($_POST['update'])) {
-    // sanitize input data
-    $title = sanitize_text_field($_POST['title']);
-    $content = sanitize_textarea_field($_POST['content']);
-    $start_date = sanitize_text_field($_POST['start']);
-    $due_date = sanitize_text_field($_POST['deadline']);
-    $status = sanitize_text_field($_POST['status']);
-    $user_id = intval($_POST['user']);
-
-    // update post data
-    $post_data = array(
-        'ID' => get_the_ID(),
-        'post_title' => $title,
-        'post_content' => $content,
-        'meta_input' => array(
-            'project_start' => $start_date,
-            'project_end' => $due_date,
-            'project_status_select' => $status,
-            'project_user' => $user_id
-        )
-    );
-    wp_update_post($post_data);
-
-    // redirect to the updated post
-    wp_redirect( home_url() );
-       exit;
-}           
+  // handle form submission     
             ?>
 
             <head>
-                <meta charset="utf-8">
+                <meta charset="utf-8"> 
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
                 <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
                 <link rel="stylesheet" href="../wp-content/themes/vanced/assets/css/advanced.css">
@@ -385,6 +358,33 @@ if (isset($_POST['update'])) {
                                                 if ($query->have_posts()):
                                                     while ($query->have_posts()):
                                                         $query->the_post();
+                                                        if (isset($_POST['update'])) {
+                                                            // sanitize input data
+                                                            $title = sanitize_text_field($_POST['title']);
+                                                            $content = sanitize_textarea_field($_POST['content']);
+                                                            $start_date = sanitize_text_field($_POST['start']);
+                                                            $due_date = sanitize_text_field($_POST['deadline']);
+                                                            $status = sanitize_text_field($_POST['status']);
+                                                            $user_id = intval($_POST['user']);
+                                                        
+                                                            // update post data
+                                                            $post_data = array(
+                                                                'ID' => get_the_ID(),
+                                                                'post_title' => $title,
+                                                                'post_content' => $content,
+                                                                'meta_input' => array(
+                                                                    'project_start' => $start_date,
+                                                                    'project_end' => $due_date,
+                                                                    'project_status_select' => $status,
+                                                                    'project_user' => $user_id
+                                                                )
+                                                            );
+                                                            wp_update_post($post_data);
+                                                        
+                                                            // redirect to the updated post
+                                                            wp_redirect( home_url() );
+                                                               exit;
+                                                        }      
                                                       // get post data
                                              $project_start = get_post_meta(get_the_ID(), 'project_start', true);
                                              $project_end = get_post_meta(get_the_ID(), 'project_end', true);
@@ -451,18 +451,18 @@ if (isset($_POST['update'])) {
                                                 <div class='col'>
                                                     <label for='name'>Start Date</label>
                                                     <input type='date' class='form-control' name='start' placeholder=''
-                                                        value="<?php echo esc_attr($post->project_start); ?>" required>
+                                                        value="<?php echo $project_start; ?>" required>
                                                 </div>
                                                 <div class='col'>
                                                     <label for='project'>Due Date</label>
-                                                    <input type='date' class='form-control' name='due'
-                                                        value="<?php echo esc_attr($post->project_end); ?>" placeholder='' required>
+                                                    <input type='date' class='form-control' name='deadline'
+                                                        value="<?php echo $project_end; ?>" placeholder='' required>
                                                 </div>
                                                 <div class='form-outline mb-4 '>
                                                     <label class='form-label' for='textAreaExample6'>
                                                         <?php _e('Project Description:', 'mytextdomain'); ?>
                                                     </label>
-                                                    <textarea class='form-control' id='textAreaExample6' name="description" rows='5'
+                                                    <textarea class='form-control' id='textAreaExample6' name="content" rows='5'
                                                         placeholder="Enter project description..."
                                                         required><?php echo the_content(); ?></textarea>
                                                 </div>

@@ -256,9 +256,31 @@ get_header();
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
+                                    <?php
+    $parameter = array(
+        'post_type' => 'project',
+        'posts_per_page' => -1
+    );
+    $query = new WP_Query($parameter);
+
+    $total_projects = $query->found_posts;
+
+    $args = array(
+        'post_type' => 'project',
+        'posts_per_page' => -1,
+        'meta_query' => array(
+            array(
+                'key' => 'project_status_select',
+                'value' => 'completed'
+            )
+        )
+    );
+    $query = new WP_Query($args);
+    $total_complete = $query->found_posts;
+?>
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold">COMPLETE</p>
 
-                                        <h5 class="text-success mb-0 font-weight-bolder">0</h5>
+                                        <h5 class="text-success mb-0 font-weight-bolder"><?php echo $total_complete?></h5>
 
                                     </div>
                                 </div>
@@ -278,8 +300,30 @@ get_header();
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
+                                    <?php
+    $parameter = array(
+        'post_type' => 'project',
+        'posts_per_page' => -1
+    );
+    $query = new WP_Query($parameter);
+
+    $total_projects = $query->found_posts;
+
+    $args = array(
+        'post_type' => 'project',
+        'posts_per_page' => -1,
+        'meta_query' => array(
+            array(
+                'key' => 'project_status_select',
+                'value' => 'In Progress'
+            )
+        )
+    );
+    $query = new WP_Query($args);
+    $total_progress = $query->found_posts;
+?>
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold">In Progress</p>
-                                        <h5 class="text-success mb-0 font-weight-bolder">0</h5>
+                                        <h5 class="text-success mb-0 font-weight-bolder"><?php echo $total_progress?></h5>
                                     </div>
                                 </div>
                                 <div class="col-4 text-end">
@@ -299,8 +343,30 @@ get_header();
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
+                                    <?php
+    $parameter = array(
+        'post_type' => 'project',
+        'posts_per_page' => -1
+    );
+    $query = new WP_Query($parameter);
+
+    $total_projects = $query->found_posts;
+
+    $args = array(
+        'post_type' => 'project',
+        'posts_per_page' => -1,
+        'meta_query' => array(
+            array(
+                'key' => 'project_status_select',
+                'value' => 'Pending'
+            )
+        )
+    );
+    $query = new WP_Query($args);
+    $total_pending = $query->found_posts;
+?>
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold">Pending</p>
-                                        <h5 class="text-success mb-0 font-weight-bolder">0</h5>
+                                        <h5 class="text-success mb-0 font-weight-bolder"><?php echo $total_pending?></h5>
                                     </div>
                                 </div>
                                 <div class="col-4 text-end">
@@ -319,8 +385,18 @@ get_header();
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
+                                    <?php 
+       $parameter = array(
+        'post_type' => 'project',
+        'posts_per_page' => -1
+    );
+    $query = new WP_Query($parameter);
+
+    $total_projects = $query->found_posts;
+
+    ?>
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold">Projects</p>
-                                        <h5 class="text-success mb-0 font-weight-bolder">0</h5>
+                                        <h5 class="text-success mb-0 font-weight-bolder"><?php  echo $total_projects?></h5>
                                     </div>
                                 </div>
                                 <div class="col-4 text-end">
