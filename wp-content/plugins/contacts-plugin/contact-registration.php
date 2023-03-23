@@ -1,18 +1,21 @@
 <?php
 /**
- *  @package ContactInfo
+ *  @package ContactRegistration
  */
 
 
    /*
 
-Plugin Name: Contact Info
-Plugin URI:https://jonah
+Plugin Name: Contact-registration
+Plugin URI:https://github.com/Jonah-Kiptoo/vanced
 Author: Jonah Kiptoo
-Author URI: https://jonah
-Description: Custom plugin for contact information for vanced theme.
+Author URI: https://github.com/Jonah-Kiptoo/vanced
+Description: This is a custom plugin that collect contact information for vancedme.
 Version: 1.0
-License: GPL v2 or later
+Requires at least: 5.0
+Tested up to: 5.4
+Requires PHP: 7.0
+License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
@@ -50,7 +53,7 @@ class ContactReg{
        
 
         $contact_details = "CREATE TABLE $table_name(
-            useremail text NOT NULL,
+            useremail varchar(35) NOT NULL,
             message text NOT NULL
         );";
 
