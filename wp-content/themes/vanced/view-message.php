@@ -1,7 +1,7 @@
 <?php
 
 /**
-* Template Name: Projects
+* Template Name: View-Message
 */
 get_header();
 ?>
@@ -396,13 +396,8 @@ $user = new WP_User($current_user ->ID);
 <table class = 'table table-striped'>
 <thead>
 <tr>
-<th scope = 'col'>Project Title</th>
-<th scope = 'col'>Description</th>
-<th scope = 'col'>Start date</th>
-<th scope = 'col'>Due date</th>
-<th scope = 'col'>Status</th>
-<th scope = 'col'>User Assigned</th>
-<th scope = 'col'>Actions</th>
+<th scope = 'col'>User Email</th>
+<th scope = 'col'>Message</th>
 </tr>
 </thead>
 <?php
@@ -442,46 +437,6 @@ if ($query->have_posts()):
 <b><?php the_content();
         ?></b>
 <p class = 'truncate'></p>
-</td>
-<td><b><?php echo esc_attr($project_start) ;
-        ?></b></td>
-<td>
-<b><?php echo esc_attr($project_end) ;
-        ?></b>
-</td>
-<td>
-<span <?php if ($project_status == 'Pending') {
-    echo'class="badge text-bg-danger"';
-}
-        ?> <?php if ($project_status == 'In Progress') {
-            echo'class="badge text-bg-primary"';
-        }
-        ?> <?php if ($project_status == 'Completed') {
-            echo'class="badge text-bg-success"';
-        }
-        ?> >
-<?php echo esc_attr($project_status) ;
-        ?>
-</span>
-</td>
-<td>
-<span class = ''><?php echo esc_attr($project_user) ;
-        ?></span>
-</td>
-<td>
-<div class = 'mt-2 d-flex gap-1' >
-<a href="../updates/?post_id=<?php echo get_the_ID(); ?>"><input class="btn btn-primary"type="button" value="Edit"></a>
-<form action = '' method = 'post'>
-<input type = 'hidden' name = 'meta-field' value = "<?php echo get_post_meta(get_the_ID(), 'project_user', true); ?>">
-<input type = 'hidden' name = 'post-id' value = '<?php 
-if ($project_status == 'Completed' ) {
-   echo get_the_ID();;
-}else{
-    echo $alert_message;
-}  ?>'>
-<button class = 'btn btn-primary'type = 'submit' name = 'delete_post'>Del</button>
-</form>
-</div>
 </td>
 </tr>
 </tbody>

@@ -227,6 +227,7 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                         <span class="nav-link-text ms-1">Add Project</span>
                     </a>
                 </li>
+                
                 <li class="nav-item">
                     <a class="nav-link  " href="/wp/vanced/project/">
                         <div
@@ -470,7 +471,7 @@ if (isset($_POST['deactivate_user']) && isset($_POST['user_id'])) {
                                         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
                                     <button class="btn btn-success" type="submit" name="activate_user">Activate</button>
                                     <?php }//else{?>
-                                    <input type = 'hidden' name = 'post-id' value = '<?php echo $user_id; ?>'><button class = 'btn btn-primary'type = 'submit' name = 'delete_post'>Del</button>
+                                    
                                  <?php
                                  //}
                                  ?>

@@ -133,9 +133,7 @@ get_header();
           required style="border: 1px solid #090D5A;"></textarea>
       </div>
       <div class="btn">
-        <div class="col-xs-4 col-sm-4 col-md-4">
-        <button class="btn btn-primary px-5" type="submit" name="sendcontact"><?php _e('SEND', 'mytextdomain') ?></button>
-        </div>
+        <input class="btn btn-primary px-5" type="submit" name="sendcontact"><?php _e('SEND', 'mytextdomain') ?></button>
       </div>
   </div>
   <?php wp_nonce_field( 'cpt_nonce_action', 'cpt_nonce_field' ); ?>

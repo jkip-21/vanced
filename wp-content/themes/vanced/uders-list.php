@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * Template Name: user-Projects
+ * Template Name: user-list
  */
 get_header();?>
 
@@ -261,125 +261,50 @@ get_header();?>
                 </div>
 
             </div>
-            
         </div>
-        <?php
-        $current_user = wp_get_current_user();
-        $user = new WP_User( $current_user ->ID);
-        $project_status = get_post_meta(get_the_ID(), 'project_status_select', true);
-        
-        // The Query
-        $query = new WP_Query(array(
-            'post_type' => 'project',
-            'meta_query' => array(
-                array(
-                    'key' => 'project_user',
-                    'value' => $current_user->ID,
-                ),
-                array(
-                    'key' => 'project_status_select',
-                    'value' => 'Completed',
-                )
-                
-            )
-        ));
-        query_posts( $query );
-        
-        // The Loop
-        if($query->have_posts()):
-        while ( $query->have_posts() ) : 
-            $query->the_post();  
-        // your post content ( title, excerpt, thumb....)
-        
-        $project_start = get_post_meta(get_the_ID(), 'project_start', true);
-        $project_end = get_post_meta(get_the_ID(), 'project_end', true);
-        $project_status = get_post_meta(get_the_ID(), 'project_status_select', true);
-        
-        $project_user_id = get_post_meta(get_the_ID(), 'project_user', true);
-        
-        endwhile;
-        //Reset Query
-        wp_reset_query();
-        endif;
+        <form action="" method="GET">
+    <input type="text" name="search" placeholder="Search users..." value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+    <button type="submit" name="submit">Search</button>
+</form>
+
+<?php
+    $args = array(
+        'orderby' => 'ID',
+        'order' => 'ASC',
+    );
+
+    if (isset($_GET['search'])) {
+        $search_text = $_GET['search'];
+        $args['search'] = '*'.$search_text.'*';
+    }
+    
+    $users = get_users($args);
+
+    if (!empty($users)) {
         ?>
         <table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Project Title</th>
-      <th scope="col">Start Date</th>
-      <th scope="col">Due date</th>
-      <th scope="col">Status</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <?php 
-  // The Query
-  $query = new WP_Query(array(
-    'post_type' => 'project',
-    'meta_query' => array(
-        array(
-            'key' => 'project_user',
-            'value' => $current_user->ID,
-        )
-    )
-));
-query_posts( $query );
-
-// The Loop
-if($query->have_posts()):
-while ( $query->have_posts() ) : 
-    $query->the_post();  
-// your post content ( title, excerpt, thumb....)
-
-$project_start = get_post_meta(get_the_ID(), 'project_start', true);
-$project_end = get_post_meta(get_the_ID(), 'project_end', true);
-$project_status = get_post_meta(get_the_ID(), 'project_status_select', true);
-
-$project_user_id = get_post_meta(get_the_ID(), 'project_user', true);
-
-$project_user = '';
-if ( $project_user_id ) {
-    $user_info = get_userdata( $project_user_id );
-    if ( $user_info ) {
-        $project_user = $user_info->display_name;
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">User Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($users as $user) { ?>
+                    <tr>
+                        <td><?php echo $user->ID; ?></td>
+                        <td><?php echo $user->display_name; ?></td>
+                        <td><?php echo $user->user_email; ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <?php
+    } else {
+        echo "No users found.";
     }
-}
-
-  ?>
-
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>
-        <?php the_title()?>
-        <?php the_content()?></td>
-      <td><?php echo esc_attr( $project_start )?></td>
-      <td><?php echo esc_attr( $project_end )?></td>
-      <td><?php echo esc_attr( $project_status )?></td>
-      <td>
-           <div class="mt-2 d-flex gap-1" >
-                        <form action="" method="post">
-                            <input type="hidden" name="meta-field" value="In Progress">
-                            <input type="hidden" name="post-id" value="<?php echo get_the_ID(); ?>">                      
-                            <button class="btn btn-primary"type="submit" name="accepted" <?php if ($project_status == 'In Progress' || $project_status == 'Completed') { echo'disabled'; } ?> >Accept</button>
-                        </form>
-                    </div>
-                </td>
-                <td>
-                    <div class="mt-2 d-flex gap-1" >
-                        <form action="" method="post">
-                            <input type="hidden" name="meta-field2" value="Completed">
-                            <input type="hidden" name="project-id" value="<?php echo get_the_ID(); ?>">
-                            <button class="btn btn-secondary" type="submit" name="completed" <?php if ($project_status == 'Completed' || $project_status == 'Pending') { echo'disabled'; } ?>>Completed</button>
-                        </form>
-           </div>                       
-        </td>
-    </tr>
-  </tbody>
-  </table>
-        </form>
+?>
   <?php 
-  endwhile;
-endif;
+  
   get_footer();?>

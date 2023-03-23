@@ -112,7 +112,13 @@ function check_attempted_login( $user, $username, $password ) {
             $until = get_option( '_transient_timeout_' . 'attempted_login' );
             $time = time_to_go( $until );
 
-            return new WP_Error( 'too_many_tried',  sprintf( __( '<strong>ERROR</strong>: You have reached authentication limit, you will be able to try again in %1$s.' ) , $time ) );
+            $error_message = '<strong>ERROR</strong>: You have reached authentication limit, you will be able to try again in %1$s.' . $time . '.';
+            $error = new WP_Error('too_many_tried', $error_message);
+            
+            // Get the error message as a string
+            
+            $error_string = $error->get_error_message('too_many_tried');
+        
         }
     }
 
