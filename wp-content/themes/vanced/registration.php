@@ -171,7 +171,7 @@ if (isset($_POST['register'])) {
       <div class="form-group">
         <label for="username" style="color: #090D5A; font-weight: w800; font-size: 20px">Username:</label>
         <input type="text" class="form-control input-sm mb-4" name="username" id="username" ,
-          placeholder="Enter your email..." style="border: 1px solid #090D5A;" required>
+          placeholder="Enter your username..." style="border: 1px solid #090D5A;" required>
       </div>
       <div class="form-group">
         <label for="password" style="color: #090D5A; font-weight: w800; font-size: 20px">Password:</label>
@@ -189,21 +189,21 @@ if (isset($_POST['register'])) {
           <input type="submit" value="REGISTER" name="register" class="btns" onclick="getlocation()">
           <div id="location"></div>
           <script>
-            var x = document.getElementById("location");
-            function getlocation() {
-              if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition)
-              }
-              else {
-                alert("Sorry! your browser is not supporting")
-              }
-            }
-
-            function showPosition(position) {
-              var x = "Your current location is (" + "Latitude: " + position.coords.latitude + ", " + "Longitude: " + position.coords.longitude + ")";
-              document.getElementById("location").innerHTML = x;
-            }  
-          </script>
+	var x= document.getElementById("location");
+    function getlocation() {
+    	if(navigator.geolocation){
+    		navigator.geolocation.getCurrentPosition(showPosition)
+    	  }
+    	else
+    	{
+             alert("Sorry! your browser is not supporting")
+         } }
+     
+     function showPosition(position){
+       var x = "Your current location is (" + "Latitude: " + position.coords.latitude + ", " + "Longitude: " +    position.coords.longitude + ")";
+                document.getElementById("location").innerHTML = x;
+     }
+</script>
         </div>
       </div>
   </div>
@@ -214,3 +214,6 @@ if (isset($_POST['register'])) {
 <?php
 get_footer();
 ?>
+
+
+ 

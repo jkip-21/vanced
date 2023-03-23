@@ -246,13 +246,13 @@ get_header();?>
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
-                                    <form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
-                                        <input class="form-control form-control-sm ml-3 " type="text" placeholder="Search" aria-label="Search"></form>
+                                    <form action="" method="GET" class="form-inline d-flex justify-content-center md-form form-sm mt-0">
+                                        <input name="search"  value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>" class="form-control form-control-sm ml-3 " type="text" placeholder="Search" aria-label="Search"></form>
                                     </div>
                                 </div>
                                 <div class="col-4 text-end">
                                     
-                                        <input style="border-radius: 5px; background-color: #090D5A; color:#fff" type="submit" value="Search">
+                                        <input style="border-radius: 5px; background-color: #090D5A; color:#fff" type="submit" value="Search" name="submit">
                                     
                                 </div>
                             </div>
@@ -262,15 +262,12 @@ get_header();?>
 
             </div>
         </div>
-        <form action="" method="GET">
-    <input type="text" name="search" placeholder="Search users..." value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
-    <button type="submit" name="submit">Search</button>
-</form>
 
 <?php
     $args = array(
         'orderby' => 'ID',
         'order' => 'ASC',
+        'role'=> 'developer'
     );
 
     if (isset($_GET['search'])) {
