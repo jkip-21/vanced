@@ -228,12 +228,12 @@ a {
 
 }
 .btns{
-	color: #fff;
+	//color: #fff;
 	padding: 5px;
 }
 .login{
 	background-color: #090D5A;
-	color: #fff;
+	//color: #fff;
 	border-radius: 5px	;
 }
 	</style>
@@ -882,7 +882,7 @@ switch ( $action ) {
 		 */
 		do_action( 'lost_password', $errors );
 
-		login_header( __( 'Lost Password' ), '<p class="message">' . __( 'Please enter your username or email address. You will receive an email message with instructions on how to reset your password.' ) . '</p>', $errors );
+		login_header( __( 'Lost Password' ), '<p class="message" style="color:black">' . __( 'Please enter your username or email address. You will receive an email message with instructions on how to reset your password.' ) . '</p>', $errors );
 
 		$user_login = '';
 
@@ -1412,7 +1412,7 @@ switch ( $action ) {
 		} else {
 			// Some parts of this script use the main login form to display a message.
 			if ( isset( $_GET['loggedout'] ) && $_GET['loggedout'] ) {
-				$errors->add( 'loggedout', __( 'You are now logged out.' ), 'message' );
+				$errors->add( 'loggedout', __( '<p style="color: black">You are now logged out.</p>' ), 'message' );
 			} elseif ( isset( $_GET['registration'] ) && 'disabled' === $_GET['registration'] ) {
 				$errors->add( 'registerdisabled', __( '<strong>Error:</strong> User registration is currently not allowed.' ) );
 			} elseif ( strpos( $redirect_to, 'about.php?updated' ) ) {
