@@ -347,13 +347,17 @@ get_header();?>
                                             <p><b><?php //the_title();?></b></p>
                                         </td>
                                         <td>
-                                            <p><?php// the_content();?></b></p>
+                                            <p>
+                                                <?php
+                                                // the_content();
+                                                ?>
+                                                </b></p>
                                             <p class="truncate"></p>
                                         </td>
                                         <td><b><?php //echo esc_attr( $project_start ) ;?></b></td>
                                         <td><b><?php //echo esc_attr( $project_end ) ;?></b></td>
                                         <td>
-                                            <span <?php// if ($project_status == 'Pending') { echo'class="badge text-bg-danger"'; } ?> <?php if ($project_status == 'In Progress') { echo'class="badge text-bg-primary"'; } ?> <?php if ($project_status == 'Completed') { echo'class="badge text-bg-success"'; } ?> >
+                                            <span <?php // if ($project_status == 'Pending') { echo'class="badge text-bg-danger"'; } ?> <?php if ($project_status == 'In Progress') { echo'class="badge text-bg-primary"'; } ?> <?php if ($project_status == 'Completed') { echo'class="badge text-bg-success"'; } ?> >
                                                 <?php //echo esc_attr( $project_status ) ;?>
                                             </span>                   
                                         </td>
@@ -365,7 +369,7 @@ get_header();?>
                                                 <a href="../edit-project/?post_id=<?php //echo get_the_ID(); ?>"><input class="btn btn-primary"type="button" value="Edit"></a>
                                                 <form action="" method="post">
                                                     <input type="hidden" name="meta-field" value="<?php //echo get_post_meta(get_the_ID(), 'project_user', true); ?>">
-                                                    <input type="hidden" name="post-id" value="<?php// echo get_the_ID(); ?>">
+                                                    <input type="hidden" name="post-id" value="<?php // echo get_the_ID(); ?>">
                                                     <button class="btn btn-primary"type="submit" name="delete_post">Del</button>
                                                 </form>
                                             </div>                       
